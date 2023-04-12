@@ -1,0 +1,13 @@
+$chatbox-margin: 2rem;
+$chatbox-padding: 2rem;
+$chatbox-size: 100%;
+
+.chatbox {
+  width: calc($chatbox-size - $chatbox-margin * 2);
+  height: calc($chatbox-size - $chatbox-margin * 2);
+  box-sizing: border-box;
+  padding: $chatbox-padding;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin: $chatbox-margin;
+}
