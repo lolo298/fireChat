@@ -1,6 +1,7 @@
 import reactLogo from "../assets/react.svg";
 import "@styles/Sidebar.scss";
 import { Profile } from "@components";
+import { Link } from "react-router-dom";
 
 export function Sidebar() {
   return (
@@ -13,6 +14,7 @@ export function Sidebar() {
         <Profile />
         <p>Mon compte</p>
         <p>Mes conversations</p>
+        <Link to="/logout">Déconexion</Link>
       </div>
     </aside>
   );

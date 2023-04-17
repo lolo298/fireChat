@@ -1,3 +1,5 @@
+@import "variables.scss";
+
 .app-sidebar {
   display: flex;
   flex-direction: column;
@@ -5,7 +7,7 @@
   align-items: center;
   padding: 2rem;
   @media (prefers-color-scheme: light) {
-    background-color: #f9f9f9;
+    background-color: #e8e8e8;
   }
   background-color: #282c34;
   width: 100%;
@@ -56,6 +58,9 @@
       }
       &:hover {
         background-color: #646cffaa;
+        @media (prefers-color-scheme: light) {
+          background-color: #747bffaa;
+        }
       }
       transition: background-color 300ms;
       transform: translateX(-$paddingSize);

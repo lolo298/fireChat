@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "@styles/Profile.scss";
 
 export function Profile() {
   const [user, setUser] = useState<User | null>(null);
@@ -21,9 +23,9 @@ export function Profile() {
   }, []);
 
   return (
-    <div className="profile">
-      <img src={user?.picture.thumbnail} alt="PP" />
+    <Link to="/" className="profil">
+      <img src={user?.picture.large} alt="PP" />
       <h3>{user?.login.username}</h3>
-    </div>
+    </Link>
   );
 }

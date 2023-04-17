@@ -1,14 +1,39 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import Error from "./Error";
 import "@styles/App.scss";
 import { ChatBox, Sidebar } from "@components";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <Sidebar />
-      <ChatBox />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Sidebar />
+              <ChatBox />
+            </>
+          }
+        />
+        <Route
+          path="/logout"
+          element={
+            <>
+              <Sidebar />
+              <h1>Logout</h1>
+            </>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <>
+              <Error />
+            </>
+          }
+        />
+      </Routes>
     </div>
   );
 }
