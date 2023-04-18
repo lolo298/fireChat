@@ -2,6 +2,7 @@
 declare module "@styles";
 declare module "@components";
 declare module "@utils";
+declare module "@pages";
 declare module "@/";
 
 declare interface UserResult {

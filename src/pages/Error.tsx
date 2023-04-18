@@ -1,4 +1,4 @@
-export default function Error() {
+export function Error() {
   return (
     <div className="error">
       <h1>404</h1>
