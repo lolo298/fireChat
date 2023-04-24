@@ -1,15 +1,10 @@
-#root {
-  max-width: 1280px;
+.App {
   text-align: center;
+  max-width: 1280px;
   min-width: 100vw;
   min-height: 100vh;
   height: 100%;
   box-sizing: border-box;
-}
-
-.App {
   display: grid;
   grid-template-columns: 1fr 4fr;
-  height: 100%;
-  width: 100%;
 }
