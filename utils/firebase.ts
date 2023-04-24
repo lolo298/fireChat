@@ -1,5 +1,6 @@
 import { Auth, connectAuthEmulator, getAuth } from "firebase/auth";
 import { initializeApp, getApps, FirebaseApp } from "firebase/app";
+import { Database, connectDatabaseEmulator, getDatabase } from "firebase/database";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -13,26 +14,36 @@ const fbConfig = {
 };
 
 const app = getApps().length === 0 ? initializeApp(fbConfig) : getApps()[0];
-const auth = getAuthClient(app);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-function getAuthClient(app: FirebaseApp): Auth {
-  const auth = getAuth(app);
-  startEmulators(auth);
-  return auth;
-}
-function startEmulators(auth: Auth) {
+startEmulators([auth, db]);
+
+// function getAuthClient(app: FirebaseApp): Auth {
+//   const auth = getAuth(app);
+//   startEmulators(auth);
+//   return auth;
+// }
+// function getDbClient(app: FirebaseApp): any {
+//   const db = getDatabase(app);
+//   startEmulators(db);
+//   return auth;
+// }
+function startEmulators(sys: Sys) {
   const EMULATORS_STARTED = "EMULATORS_STARTED";
   if (process.env.NODE_ENV === "development") {
     if (!global[EMULATORS_STARTED]) {
       global[EMULATORS_STARTED] = true;
-      connectEmulator(auth);
+      connectEmulator(sys);
     }
   }
 }
-async function connectEmulator(auth: Auth) {
-  const authUrl = "http://localhost:9099";
-  //   await fetch(authUrl);
+async function connectEmulator(sys: Sys) {
+  const [auth, db] = sys;
   connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
+  connectDatabaseEmulator(db, "127.0.0.1", 9000);
 }
 
-export { app, auth };
+export { app, auth, db };
+
+type Sys = [Auth, Database];

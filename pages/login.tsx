@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import appStyles from "@styles/index.module.scss";
 import styles from "@styles/login.module.scss";
 import { useEffect, useState } from "react";
+import { GetServerSideProps } from "next";
 
 export default function Login({ redirect, destination }) {
   const router = useRouter();
@@ -56,14 +57,14 @@ export default function Login({ redirect, destination }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const cookiesJson = cookies(context.req.headers.cookie);
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const cookies = context.req.cookies;
   const props = {
     redirect: false,
     destination: "",
   };
-  if (cookiesJson.id) {
-    const id = cookiesJson.id;
+  if (cookies.id) {
+    const id = cookies.id;
     props.redirect = true;
     props.destination = `/users/${id}`;
   }
@@ -71,4 +72,4 @@ export async function getServerSideProps(context) {
   return {
     props,
   };
-}
+};
