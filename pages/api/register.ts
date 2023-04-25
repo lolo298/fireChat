@@ -13,7 +13,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const credentials = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(credentials.user, { displayName: username });
     await createDbUser(credentials.user);
-    return res.status(200).json({ success: true, message: "User created" });
+    return res
+      .status(200)
+      .json({ success: true, message: "User created", id: credentials.user.displayName });
   } catch (error) {
     return res.status(400).json({ success: false, message: error.message });
   }

@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 export function UserRoute({ children, needAdmin = false, needLogged = false }: UserRouteProps) {
   const userContext = useContext(AuthContext);
-
+  console.log(needLogged);
   if (needLogged && !userContext) {
     return <div>Not logged in</div>;
   }

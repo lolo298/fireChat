@@ -1,18 +1,15 @@
 import { ChatBox, Sidebar } from "@components";
-import { AuthProvider } from "@components/AuthProvider";
 import { UserRoute } from "@components/Routes";
 import styles from "@styles/Chat.module.scss";
 
 function App({ user }) {
   return (
-    <AuthProvider>
-      <UserRoute>
-        <div className={styles.App}>
-          <Sidebar user={user} />
-          <ChatBox />
-        </div>
-      </UserRoute>
-    </AuthProvider>
+    <UserRoute needLogged>
+      <div className={styles.App}>
+        <Sidebar user={user} />
+        <ChatBox />
+      </div>
+    </UserRoute>
   );
 }
 
