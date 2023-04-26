@@ -72,6 +72,11 @@
     }
   }
 }
+.btn {
+  width: calc(100% + 4rem);
+  transform: translateX(-2rem);
+  border-radius: 0;
+}
 
 @keyframes logo-spin {
   from {

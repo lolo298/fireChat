@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@utils/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, password } = req.body;

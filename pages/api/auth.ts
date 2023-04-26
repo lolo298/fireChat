@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next/types";
 import { auth } from "@utils/firebase";
+import { NextApiRequest, NextApiResponse } from "next/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   auth.onAuthStateChanged((user) => {

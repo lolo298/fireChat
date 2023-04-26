@@ -1,13 +1,16 @@
-import { cookies } from "@utils";
-import { useRouter } from "next/router";
 import appStyles from "@styles/index.module.scss";
 import styles from "@styles/login.module.scss";
-import { useEffect, useState } from "react";
+import { AuthContext } from "@utils/context";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 
-export default function Login({ redirect, destination }) {
+export default function Login() {
   const router = useRouter();
-  if (redirect) {
-    router.push(destination);
+  const userContext = useContext(AuthContext);
+
+  if (userContext) {
+    router.push(`/users/${userContext.displayName}`);
   }
 
   async function handleSubmit(e) {
@@ -65,24 +68,8 @@ export default function Login({ redirect, destination }) {
           <input type="password" name="password2" id="password2" required />
         </label>
         <input type="submit" value="Login" />
+        <Link href="/login">Already have an account</Link>
       </form>
     </div>
   );
-}
-
-export async function getServerSideProps(context) {
-  const cookiesJson = cookies(context.req.headers.cookie);
-  const props = {
-    redirect: false,
-    destination: "",
-  };
-  if (cookiesJson.id) {
-    const id = cookiesJson.id;
-    props.redirect = true;
-    props.destination = `/users/${id}`;
-  }
-
-  return {
-    props,
-  };
 }

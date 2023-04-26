@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { User, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { set as setData, ref as dbRef } from "firebase/database";
 import { auth, db } from "@utils/firebase";
+import { User, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { ref as dbRef, set as setData } from "firebase/database";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { username, password, password2, email } = req.body;

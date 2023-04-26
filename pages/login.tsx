@@ -1,9 +1,9 @@
-import { cookies } from "@utils";
-import { useRouter } from "next/router";
 import appStyles from "@styles/index.module.scss";
 import styles from "@styles/login.module.scss";
-import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function Login({ redirect, destination }) {
   const router = useRouter();
@@ -52,6 +52,7 @@ export default function Login({ redirect, destination }) {
           <input type="password" name="password" id="password" required />
         </label>
         <input type="submit" value="Login" />
+        <Link href="/register">Don't have an Account</Link>
       </form>
     </div>
   );
