@@ -1,22 +1,38 @@
 import { AuthContext } from "@utils/context";
+import { useRouter } from "next/router";
 import { useContext } from "react";
+import { Spinner } from "@components/Spinner";
 
-export function UserRoute({ children, needAdmin = false, needLogged = false }: UserRouteProps) {
-  const userContext = useContext(AuthContext);
-  console.log(needLogged);
-  if (needLogged && !userContext) {
-    return <div>Not logged in</div>;
+export function UserRoute({
+  children,
+  needAdmin = false,
+  needLogged = false,
+  needNotLogged = false,
+}: UserRouteProps) {
+  const { user, isLoading } = useContext(AuthContext);
+  const router = useRouter();
+
+  if (needNotLogged && !isLoading && user?.uid) {
+    router.push("/chat");
+    return <Spinner />;
   }
 
-  // if (needAdmin && !userContext?.isAdmin) {
-  //   return <div>Not an admin</div>;
+  if (needLogged && !isLoading && !user?.uid) {
+    router.push("/login");
+    return <Spinner />;
+  }
+
+  // if (needAdmin && !isLoading && user?.uid && !user.claims.admin) {
+  //   router.push("/chat");
+  //   return <Spinner />;
   // }
 
-  return <>{children}</>;
+  return <>{isLoading ? <Spinner /> : children}</>;
 }
 
 interface UserRouteProps {
   children: React.ReactNode;
   needAdmin?: boolean;
   needLogged?: boolean;
+  needNotLogged?: boolean;
 }

@@ -1,8 +1,17 @@
 import { Profile } from "@components";
 import styles from "@styles/Sidebar.module.scss";
 import { SidebarLink } from "@components/SidebarLink";
+import { auth } from "@utils/firebaseClient";
+import { useRouter } from "next/router";
 
 export function Sidebar() {
+  const router = useRouter();
+
+  async function handleLogout() {
+    await auth.signOut();
+    router.push("/login");
+  }
+
   return (
     <aside className={styles["app-sidebar"]}>
       <header>
@@ -20,16 +29,4 @@ export function Sidebar() {
       </div>
     </aside>
   );
-}
-
-async function handleLogout() {
-  const res = await fetch("/api/logout", {
-    method: "POST",
-  });
-  let data = await res.json();
-  if (data.success) {
-    window.location.href = "/";
-  } else {
-    console.error(data.message);
-  }
 }

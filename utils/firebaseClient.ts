@@ -1,8 +1,6 @@
-import { Auth, connectAuthEmulator, getAuth } from "firebase/auth";
-import { initializeApp, getApps, FirebaseApp } from "firebase/app";
-import { Database, connectDatabaseEmulator, getDatabase } from "firebase/database";
-import * as dotenv from "dotenv";
-dotenv.config();
+import { getApps, initializeApp } from "firebase/app";
+import { getAuth, connectAuthEmulator, Auth } from "firebase/auth";
+import { getDatabase, connectDatabaseEmulator, Database } from "firebase/database";
 
 const fbConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -44,6 +42,6 @@ async function connectEmulator(sys: Sys) {
   connectDatabaseEmulator(db, "127.0.0.1", 9000);
 }
 
-export { app, auth, db };
+export { auth, db };
 
 type Sys = [Auth, Database];

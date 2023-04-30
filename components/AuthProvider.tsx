@@ -1,22 +1,28 @@
 import { AuthContext } from "@utils/context";
-import { User } from "firebase/auth";
+import { auth } from "@utils/firebaseClient";
+import { User, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      const res = await fetch("/api/auth");
-      const data: res = await res.json();
-      console.log(data);
-      setUser(data.user);
-    })();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+        setIsLoading(false);
+      } else {
+        setUser(null);
+        setIsLoading(false);
+      }
+    });
   }, []);
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, isLoading }}>{children}</AuthContext.Provider>;
 }
 
 interface res {
   user: User | null;
+  isLoading: boolean;
 }

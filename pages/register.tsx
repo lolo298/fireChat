@@ -3,14 +3,15 @@ import styles from "@styles/login.module.scss";
 import { AuthContext } from "@utils/context";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
+import { auth } from "@utils/firebaseClient";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
   const router = useRouter();
   const userContext = useContext(AuthContext);
-
-  if (userContext) {
-    router.push(`/users/${userContext.displayName}`);
+  if (userContext.user && !userContext.isLoading) {
+    router.push("/chat");
   }
 
   async function handleSubmit(e) {
@@ -22,32 +23,14 @@ export default function Login() {
     if (username === "" || password === "" || email === "" || password !== password2) {
       return;
     }
-    const body = {
-      username,
-      password,
-      password2,
-      email,
-    };
-    const res = await fetch("/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-    const data: loginRes = await res.json();
-    if (data.success) {
-      const id = data.id;
-      router.push(`/users/${id}`);
-    } else {
-      console.error(data.message);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      router.push("/chat");
+    } catch (e) {
+      console.error(e);
     }
   }
 
-  const [error, setError] = useState(false);
-  useEffect(() => {
-    console.log("re-rendered");
-  });
   return (
     <div className={appStyles.App}>
       <form action="" method="post" className={styles.loginForm} onSubmit={handleSubmit}>

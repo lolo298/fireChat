@@ -14,6 +14,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": ".",
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
     "paths": {
       "@/": ["."],
       "@components": ["components/index"],
