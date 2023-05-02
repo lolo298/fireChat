@@ -1,16 +1,15 @@
 import appStyles from "@styles/index.module.scss";
 import styles from "@styles/login.module.scss";
-import { AuthContext } from "@utils/context";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
 import { auth } from "@utils/firebaseClient";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useUser } from "@utils/hooks";
 
 export default function Login() {
   const router = useRouter();
-  const userContext = useContext(AuthContext);
-  if (userContext.user && !userContext.isLoading) {
+  const { user, isLoading } = useUser();
+  if (user && !isLoading) {
     router.push("/chat");
   }
 

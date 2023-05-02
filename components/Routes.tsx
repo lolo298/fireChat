@@ -1,7 +1,6 @@
-import { AuthContext } from "@utils/context";
 import { useRouter } from "next/router";
-import { useContext } from "react";
 import { Spinner } from "@components/Spinner";
+import { useUser } from "@utils/hooks";
 
 export function UserRoute({
   children,
@@ -9,7 +8,7 @@ export function UserRoute({
   needLogged = false,
   needNotLogged = false,
 }: UserRouteProps) {
-  const { user, isLoading } = useContext(AuthContext);
+  const { user, isLoading } = useUser();
   const router = useRouter();
 
   if (needNotLogged && !isLoading && user?.uid) {
