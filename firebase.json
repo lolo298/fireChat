@@ -6,9 +6,6 @@
     "firestore": {
       "port": 8080
     },
-    "database": {
-      "port": 9000
-    },
     "functions": {
       "port": 5001
     },
@@ -16,7 +13,10 @@
       "enabled": true,
       "port": 4444
     },
-    "singleProjectMode": true
+    "singleProjectMode": true,
+    "database": {
+      "port": 9000
+    }
   },
   "functions": [
     {
