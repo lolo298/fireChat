@@ -7,7 +7,7 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
-    "firebase:emulators:start": "firebase emulators:start --import=./fbData"
+    "firebase:emulators:start": "npm --prefix ./functions/ run build:watch | firebase emulators:start --import=./fbData"
   },
   "dependencies": {
     "dotenv": "^16.0.3",

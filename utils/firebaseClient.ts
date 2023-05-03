@@ -1,5 +1,5 @@
 import { getApps, initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator, Auth } from "firebase/auth";
+import { getAuth, connectAuthEmulator, Auth, getIdTokenResult, User } from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator, Database } from "firebase/database";
 
 const fbConfig = {
@@ -42,6 +42,12 @@ async function connectEmulator(sys: Sys) {
   connectDatabaseEmulator(db, "127.0.0.1", 9000);
 }
 
-export { auth, db };
-
 type Sys = [Auth, Database];
+
+async function getTokenResult(user: User) {
+  const tokenRes = await getIdTokenResult(user);
+  console.log("tokenRes", tokenRes);
+  return tokenRes;
+}
+
+export { auth, db, getTokenResult };

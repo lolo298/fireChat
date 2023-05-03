@@ -24,6 +24,7 @@ export default function Login() {
     }
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      
       router.push("/chat");
     } catch (e) {
       console.error(e);
