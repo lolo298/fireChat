@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator, Auth, getIdTokenResult, User } from "firebase/auth";
-import { getDatabase, connectDatabaseEmulator, Database } from "firebase/database";
+import { connectFirestoreEmulator, getFirestore, Firestore } from "firebase/firestore";
 
 const fbConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,7 +13,7 @@ const fbConfig = {
 
 const app = getApps().length === 0 ? initializeApp(fbConfig) : getApps()[0];
 const auth = getAuth(app);
-const db = getDatabase(app);
+const db = getFirestore(app);
 
 startEmulators([auth, db]);
 
@@ -39,14 +39,14 @@ function startEmulators(sys: Sys) {
 async function connectEmulator(sys: Sys) {
   const [auth, db] = sys;
   connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
-  connectDatabaseEmulator(db, "127.0.0.1", 9000);
+  // connectDatabaseEmulator(db, "127.0.0.1", 9000);
+  connectFirestoreEmulator(db, "127.0.0.1", 8080);
 }
 
-type Sys = [Auth, Database];
+type Sys = [Auth, Firestore];
 
 async function getTokenResult(user: User) {
   const tokenRes = await getIdTokenResult(user);
-  console.log("tokenRes", tokenRes);
   return tokenRes;
 }
 

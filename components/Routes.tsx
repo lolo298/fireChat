@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { Spinner } from "@components/Spinner";
 import { useClaims, useUser } from "@utils/hooks";
-import { Suspense } from "react";
 
 export function UserRoute({
   children,
@@ -9,23 +8,21 @@ export function UserRoute({
   needLogged = false,
   needNotLogged = false,
 }: UserRouteProps) {
-  const { user, isLoading } = useUser();
-  const { claims, isLoading: isLoadingClaims } = useClaims(user);
+  const user = useUser();
+  const claims = useClaims(user.data);
   const router = useRouter();
-  console.log("userLoading", isLoading);
-  console.log("claimsLoading", isLoadingClaims);
-  if (isLoading || isLoadingClaims) return <Spinner />;
+  if (user.isLoading || claims.isLoading) return <Spinner />;
 
-  if (needNotLogged && user?.uid) {
+  if (needNotLogged && user.data?.uid) {
     router.push("/chat");
     return <Spinner />;
   }
 
-  if (needLogged && !user?.uid) {
+  if (needLogged && !user.data?.uid) {
     router.push("/login");
     return <Spinner />;
   }
-  if (needAdmin && claims.role !== "admin") {
+  if (needAdmin && claims.data.role !== "admin") {
     return (
       <>
         <h1>Unauthorized</h1>
