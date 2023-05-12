@@ -5,12 +5,12 @@ import Link from "next/link";
 import { Spinner } from "./Spinner";
 
 export function Profile() {
-  const { data, isLoading } = useUser();
-  if (isLoading) return <Spinner />;
+  const [user, userLoading] = useUser();
+  if (userLoading) return <Spinner />;
   return (
     <Link href="/" className={styles.profil}>
-      <ProfilePicture username={data?.displayName} uid={data?.uid} saturation={50} lightness={50} />
-      <h3>{data?.displayName}</h3>
+      <ProfilePicture username={user?.displayName} uid={user?.uid} saturation={50} lightness={50} />
+      <h3>{user?.displayName}</h3>
     </Link>
   );
 }

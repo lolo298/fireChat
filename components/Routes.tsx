@@ -8,21 +8,21 @@ export function UserRoute({
   needLogged = false,
   needNotLogged = false,
 }: UserRouteProps) {
-  const user = useUser();
-  const claims = useClaims(user.data);
+  const [user, userLoading] = useUser();
+  const [claims, claimsLoading] = useClaims(user);
   const router = useRouter();
-  if (user.isLoading || claims.isLoading) return <Spinner />;
+  if (userLoading || claimsLoading) return <Spinner />;
 
-  if (needNotLogged && user.data?.uid) {
+  if (needNotLogged && user?.uid) {
     router.push("/chat");
     return <Spinner />;
   }
 
-  if (needLogged && !user.data?.uid) {
+  if (needLogged && !user?.uid) {
     router.push("/login");
     return <Spinner />;
   }
-  if (needAdmin && claims.data.role !== "admin") {
+  if (needAdmin && claims.role !== "admin") {
     return (
       <>
         <h1>Unauthorized</h1>

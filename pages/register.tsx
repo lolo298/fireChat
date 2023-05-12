@@ -8,8 +8,8 @@ import { useUser } from "@utils/hooks";
 
 export default function Login() {
   const router = useRouter();
-  const { user, isLoading } = useUser();
-  if (user && !isLoading) {
+  const [user, userLoading] = useUser();
+  if (user && !userLoading) {
     router.push("/chat");
   }
 
@@ -24,7 +24,7 @@ export default function Login() {
     }
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      
+
       router.push("/chat");
     } catch (e) {
       console.error(e);

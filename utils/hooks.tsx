@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { auth, db } from "./firebaseClient";
 import { onSnapshot, doc } from "firebase/firestore";
 
-export function useUser(uid?: string) {
+export function useUser(): [User, boolean] {
   const [user, setUser] = useState<User>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -19,15 +19,15 @@ export function useUser(uid?: string) {
     });
     return unsubscribe;
   }, []);
-
-  return { data: user, isLoading };
+  return [user, isLoading];
 }
 
-export function useSender(uid: string) {
+export function useSender(uid: string): [Sender, boolean] {
   const [user, setUser] = useState<Sender>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!uid) return;
     fetch(`api/users/${uid}`)
       .then((res) => res.json())
       .then((user) => {
@@ -35,11 +35,10 @@ export function useSender(uid: string) {
         setIsLoading(false);
       });
   }, [uid]);
-
-  return { data: user, isLoading };
+  return [user, isLoading];
 }
 
-export function useClaims(user: User) {
+export function useClaims(user: User): [ParsedToken, boolean] {
   const [claims, setClaims] = useState<ParsedToken>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -56,26 +55,20 @@ export function useClaims(user: User) {
       setIsLoading(false);
     }
   }, [user]);
-
-  return { data: claims, isLoading };
+  return [claims, isLoading];
 }
 
-export function useMessages(uid: string) {
-  // const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-  // const { data, error, isLoading } = useSWR(`/api/messages/${uid}`, fetcher);
-  // console.log("data:", data);
+export function useMessages(uid: string): [Messages, boolean] {
   const [data, setData] = useState<Messages>(null);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (!uid) return;
-    const unsubscribe = onSnapshot(doc(db, `messages`, uid as string), (snapshot) => {
+    const unsubscribe = onSnapshot(doc(db, `Messages`, uid as string), (snapshot) => {
       const data = snapshot.data();
       setData(data);
       if (isLoading) setIsLoading(false);
     });
     return unsubscribe;
   }, [uid]);
-
-  return { data, isLoading };
+  return [data, isLoading];
 }

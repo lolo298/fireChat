@@ -4,7 +4,7 @@ declare interface Messages {
 interface Message {
   message: string;
   sender: string;
-  timestamp: number;
+  timestamp: any;
 }
 
 declare interface Sender {
